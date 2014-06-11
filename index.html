@@ -1,51 +1,33 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
   <head>
-    <meta charset='utf-8'>
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="chrome=1">
-    <meta name="viewport" content="width=640" />
-
-    <link rel="stylesheet" href="stylesheets/core.css" media="screen"/>
-    <link rel="stylesheet" href="stylesheets/mobile.css" media="handheld, only screen and (max-device-width:640px)"/>
-    <link rel="stylesheet" href="stylesheets/pygment_trac.css"/>
-
-    <script type="text/javascript" src="javascripts/modernizr.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="javascripts/headsmart.min.js"></script>
-    <script type="text/javascript">
-      $(document).ready(function () {
-        $('#main_content').headsmart()
-      })
-    </script>
     <title>Chain of Responsibility by pnakibar</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
   </head>
-
   <body>
-    <a id="forkme_banner" href="https://github.com/pnakibar/chainof">View on GitHub</a>
-    <div class="shell">
-
+    <div class="wrapper">
       <header>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <h1>Chain of Responsibility</h1>
-            <h2>Padrão Chain of Responsibility em Python</h2>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
+        <h1>Chain of Responsibility</h1>
+        <p>Padrão Chain of Responsibility em Python</p>
+
+        <p class="view"><a href="https://github.com/pnakibar/chainof">View the Project on GitHub <small>pnakibar/chainof</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/pnakibar/chainof/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/pnakibar/chainof/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/pnakibar/chainof">View On <strong>GitHub</strong></a></li>
+        </ul>
       </header>
-
-      <section id="downloads">
-        <span class="inner">
-          <a href="https://github.com/pnakibar/chainof/zipball/master" class="zip"><em>download</em> .ZIP</a><a href="https://github.com/pnakibar/chainof/tarball/master" class="tgz"><em>download</em> .TGZ</a>
-        </span>
-      </section>
-
-
-      <span class="banner-fix"></span>
-
-
-      <section id="main_content">
+      <section>
         <h3>
 <a name="objetivo" class="anchor" href="#objetivo"><span class="octicon octicon-link"></span></a>Objetivo</h3>
 
@@ -53,48 +35,46 @@
 <li>Evitar juntar quem envia um pedido e quem recebe, dando a mais de um objeto a chance de manusear o pedido. <em>Linkar</em> os objetos receptores e passar pela corrente o pedido até que um objeto o manuseie.</li>
 <li>Pedidos <em>Launch and Leave</em> em uma única pipeline que contem alguns possíveis manuseadores</li>
 <li>Uma lista ligada orientada a objeto com travessia recursiva</li>
-</ul><pre><code>$ cd your_repo_root/repo_name
-$ git fetch origin
-$ git checkout gh-pages
-</code></pre>
+</ul><h3>
+<a name="problema" class="anchor" href="#problema"><span class="octicon octicon-link"></span></a>Problema</h3>
 
-<p>If you're using the GitHub for Mac, simply sync your repository and you'll see the new branch.</p>
-
-<h3>
-<a name="designer-templates" class="anchor" href="#designer-templates"><span class="octicon octicon-link"></span></a>Designer Templates</h3>
-
-<p>We've crafted some handsome templates for you to use. Go ahead and continue to layouts to browse through them. You can easily go back to edit your page before publishing. After publishing your page, you can revisit the page generator and switch to another theme. Your Page content will be preserved if it remained markdown format.</p>
+<p>Se tem um número grande de <em>handlers</em> e um pacote de pedidos para ser trabalhado. É necessário processar os pedidos sem ter que fazer ligações entre os <em>handlers</em>.
+<img src="http://sourcemaking.com/files/v2/content/patterns/Chain_of_responsibility1-2x.png" alt=""></p>
 
 <h3>
-<a name="rather-drive-stick" class="anchor" href="#rather-drive-stick"><span class="octicon octicon-link"></span></a>Rather Drive Stick?</h3>
+<a name="solu%C3%A7%C3%A3o" class="anchor" href="#solu%C3%A7%C3%A3o"><span class="octicon octicon-link"></span></a>Solução</h3>
 
-<p>If you prefer to not use the automatic generator, push a branch named <code>gh-pages</code> to your repository to create a page manually. In addition to supporting regular HTML content, GitHub Pages support Jekyll, a simple, blog aware static site generator written by our own Tom Preston-Werner. Jekyll makes it easy to create site-wide headers and footers without having to copy them across every page. It also offers intelligent blog support and other advanced templating features.</p>
+<p>Encapsular o processo dentro de uma abstração de <em>pipeline</em> e ter que os clientes <em>launch and leave</em>, os seus pedidos.
+<img src="http://sourcemaking.com/files/v2/content/patterns/Chain_of_responsibility_1-2x.png" alt=""></p>
+
+<h3>
+<a name="estrutura" class="anchor" href="#estrutura"><span class="octicon octicon-link"></span></a>Estrutura</h3>
+
+<p>As classes sabem como satisfazer os pedidos dos clientes. Se um <em>handler</em> não pode ser acessado ou não pode manusear, ele então passa o pedido pra frente, e o ciclo continua até o fim.
+<img src="http://sourcemaking.com/files/v2/content/patterns/Chain_of_responsibility__-2x.png" alt=""></p>
+
+<h3>
+<a name="exemplo" class="anchor" href="#exemplo"><span class="octicon octicon-link"></span></a>Exemplo</h3>
+
+<p>O padrão evita o acoplamento de quem realiza o pedido com o receptor dele, dando a mais de um objeto a oportunidade de manusear o pedido. Caixas eletrônicos fazem uso desse padrão no mecanismo de saque de dinheiro.
+<img src="http://sourcemaking.com/files/sm/images/patterns/Chain_of_responsibility_example.png" alt=""></p>
 
 <h3>
 <a name="authors-and-contributors" class="anchor" href="#authors-and-contributors"><span class="octicon octicon-link"></span></a>Authors and Contributors</h3>
 
-<p>You can <a href="https://github.com/blog/821" class="user-mention">@mention</a> a GitHub username to generate a link to their profile. The resulting <code>&lt;a&gt;</code> element will link to the contributor's GitHub Profile. For example: In 2007, Chris Wanstrath (<a href="https://github.com/defunkt" class="user-mention">@defunkt</a>), PJ Hyett (<a href="https://github.com/pjhyett" class="user-mention">@pjhyett</a>), and Tom Preston-Werner (<a href="https://github.com/mojombo" class="user-mention">@mojombo</a>) founded GitHub.</p>
-
-<h3>
-<a name="support-or-contact" class="anchor" href="#support-or-contact"><span class="octicon octicon-link"></span></a>Support or Contact</h3>
-
-<p>Having trouble with Pages? Check out the documentation at <a href="http://help.github.com/pages">http://help.github.com/pages</a> or contact <a href="mailto:support@github.com">support@github.com</a> and we’ll help you sort it out.</p>
+<ul>
+<li>Autores <a href="https://github.com/pnakibar" class="user-mention">@pnakibar</a> e <a href="https://github.com/rikes" class="user-mention">@rikes</a>
+</li>
+<li>Adaptado de <a href="http://sourcemaking.com/">http://sourcemaking.com/</a>
+</li>
+</ul>
       </section>
-
       <footer>
-        <span class="ribbon-outer">
-          <span class="ribbon-inner">
-            <p>this project by <a href="https://github.com/pnakibar">pnakibar</a> can be found on <a href="https://github.com/pnakibar/chainof">GitHub</a></p>
-          </span>
-          <span class="left-tail"></span>
-          <span class="right-tail"></span>
-        </span>
-        <p>Generated with <a href="http://pages.github.com">GitHub Pages</a> using Merlot</p>
-        <span class="octocat"></span>
+        <p>This project is maintained by <a href="https://github.com/pnakibar">pnakibar</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
       </footer>
-
     </div>
-
+    <script src="javascripts/scale.fix.js"></script>
     
   </body>
 </html>
