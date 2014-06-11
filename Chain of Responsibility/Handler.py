@@ -4,6 +4,12 @@ class Handler:
 	def setSucessor(self, suc):
 		self.sucessor = suc
 
+	def setLastSucessor(self, suc):
+		if (self.sucessor == None):
+			self.setSucessor(suc)
+		else:
+			self.sucessor.setLastSucessor(suc)
+
 	def handleRequest(self, request): pass
 
 
@@ -31,13 +37,16 @@ class ConcreteHandler3(Handler):
 			
 
 
+'''Programa principal'''
 
 a = ConcreteHandler1()
 b = ConcreteHandler2()
 c = ConcreteHandler3()
 
-a.setSucessor(b)
-b.setSucessor(c)
+
+a.setLastSucessor(b)
+a.setLastSucessor(c)
+
 
 requests = list(range(0, 40))
 
